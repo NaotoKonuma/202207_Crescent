@@ -78,4 +78,33 @@ class News
         $stmt->bindValue(':image',   $image,   PDO::PARAM_STR);
         $stmt->execute();
     }
+
+    /**
+     * パラメータIDを元に1件のレコードを返す
+     *
+     * @param string $id
+     * @return array|bool
+     */
+    public static function find(string $id): array | bool
+    {
+        $sql = 'SELECT * FROM ' . self::DB_TABLE . ' WHERE id=:id';
+        $stmt = self::getPDO()->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    /**
+     * パラメータIDを元に1件のレコードを削除
+     *
+     * @param string $id
+     * @return array
+     */
+    public static function delete(string $id): void
+    {
+        $sql = 'DELETE FROM ' . self::DB_TABLE . ' WHERE id=:id';
+        $stmt = self::getPDO()->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
